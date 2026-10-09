@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Qeydiyyat — SENTRA</title>
+<meta name="description" content="SENTRA hesabı yaradın və ingilis dili yazı tapşırığınızı DİM meyarları ilə yoxlayın.">
+<script>try{if(localStorage.getItem('emeyar_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="/lib/net.js"></script>
+<script src="/lib/auth.js"></script>
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/public.css">
+</head>
+<body>
+
+<div class="auth">
+  <aside class="auth-side">
+    <a class="logo" href="/" aria-label="SENTRA — ana səhifə"><span class="wordmark">SENTRA</span></a>
+    <img class="watermark" src="/assets/mark-cream.png" alt="" aria-hidden="true">
+    <div class="msg">
+      <h2>Yazınızı <em>DİM meyarları ilə</em> yoxlayın.</h2>
+      <p>Hesab yaradın, esse yazın və hər meyar üzrə bal və izah alın.</p>
+      <div class="mini-score" aria-hidden="true">
+        <span class="num">15.0</span>
+        <div class="who">Nümunə nəticə<small>A 1 · B 2 · C 0.5 · D 1</small></div>
+        <span class="diamond"></span>
+      </div>
+    </div>
+    <div class="copy">© 2026 SENTRA · Bakı, Azərbaycan</div>
+  </aside>
+
+  <main class="auth-main">
+    <button type="button" class="theme-toggle" data-theme-toggle title="Gecə rejimi" aria-label="Gecə rejimi">
+      <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+    <div class="auth-form">
+      <a class="logo mobile-logo" href="/" aria-label="SENTRA — ana səhifə">
+        <span class="wordmark">SENTRA</span>
+      </a>
+      <h1>Hesab yaradın</h1>
+      <p class="sub">Ad, e-poçt və şifrə kifayətdir.</p>
+
+      <div id="errorBox"></div>
+
+      <form id="signupForm" novalidate>
+        <div class="field">
+          <label for="name">Ad</label>
+          <input class="input" type="text" id="name" name="name" placeholder="Adınız" autocomplete="given-name" maxlength="60" required>
+        </div>
+        <div class="field">
+          <label for="email">E-poçt</label>
+          <input class="input" type="email" id="email" name="email" placeholder="sizin@email.com" autocomplete="email" required>
+        </div>
+        <div class="field">
+          <label for="password">Şifrə</label>
+          <div class="pw-wrap">
+            <input class="input" type="password" id="password" name="password" placeholder="Minimum 8 simvol" autocomplete="new-password" required>
+            <button type="button" class="pw-toggle" data-target="password" aria-label="Şifrəni göstər"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></button>
+          </div>
+          <p class="hint">Ən azı 8 simvol olmalıdır.</p>
+        </div>
+        <button type="submit" class="btn-submit" id="submitBtn">Qeydiyyatdan keç</button>
+      </form>
+
+      <p class="auth-foot">Hesabınız var? <a href="login.html">Daxil olun</a></p>
+    </div>
+  </main>
+</div>
+
+<script>
+  /* ---- HTML-escape helper used on any user/server string injected via innerHTML ---- */
+  function escapeHtml(t) { var d = document.createElement('div'); d.textContent = t == null ? '' : String(t); return d.innerHTML; }
+  var ICON_ERR = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>';
+  var ICON_OK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4 12 14.01l-3-3"/></svg>';
+  function alertHtml(kind, html) { return '<div class="alert alert-' + kind + '">' + (kind === 'error' ? ICON_ERR : ICON_OK) + '<span>' + html + '</span></div>'; }
+
+  /* ---- Password visibility toggles (UI only) ---- */
+  document.querySelectorAll('.pw-toggle').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var input = document.getElementById(btn.dataset.target);
+      var show = input.type === 'password';
+      input.type = show ? 'text' : 'password';
+      btn.setAttribute('aria-label', show ? 'Şifrəni gizlət' : 'Şifrəni göstər');
+    });
+  });
+
+  /* POSTs { first_name, email, password } to /api/auth/signup. Email
+     confirmation is ON: the answer is never a session, only "check your
+     email". The student confirms, comes back to login.html and logs in. */
+  document.getElementById('signupForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    var errorBox = document.getElementById('errorBox');
+    var btn = document.getElementById('submitBtn');
+    var form = document.getElementById('signupForm');
+    var name = document.getElementById('name').value.trim();
+    var email = document.getElementById('email').value.trim();
+    var password = document.getElementById('password').value;
+
+    errorBox.innerHTML = '';
+    if (!name) {
+      errorBox.innerHTML = alertHtml('error', 'Adınızı daxil edin.');
+      document.getElementById('name').focus();
+      return;
+    }
+    if (!email) {
+      errorBox.innerHTML = alertHtml('error', 'E-poçt ünvanınızı daxil edin.');
+      document.getElementById('email').focus();
+      return;
+    }
+    // Same rule and words as the reset page and the server (Supabase: 8).
+    if (password.length < 8) {
+      errorBox.innerHTML = alertHtml('error', 'Şifrə ən azı 8 simvol olmalıdır.');
+      document.getElementById('password').focus();
+      return;
+    }
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> Gözləyin...';
+
+    try {
+      var res = await fetch('/api/auth/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ first_name: name, email: email, password: password })
+      });
+      var data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Qeydiyyat alınmadı. Bir az sonra yenidən cəhd edin.');
+
+      form.style.display = 'none';
+      errorBox.innerHTML = alertHtml('success', '<b>' + escapeHtml(email) + '</b> ünvanına təsdiq keçidi göndərildi. E-poçtunuzu (və spam qovluğunu) yoxlayın, keçidi klikləyin, sonra daxil olun.');
+    } catch (err) {
+      errorBox.innerHTML = alertHtml('error', escapeHtml(err.message));
+      btn.disabled = false;
+      btn.textContent = 'Qeydiyyatdan keç';
+    }
+  });
+</script>
+<script src="/lib/public-theme.js"></script>
+
+</body>
+</html>

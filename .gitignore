@@ -1,0 +1,31 @@
+# Environment variables (API keys, secrets). Only .env.example is committed.
+.env
+.env.*
+!.env.example
+
+# Loose secret files (api.txt was found here on 9 Oct 2026)
+api.txt
+*.key
+*.pem
+
+# Node dependencies
+node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Python (from the first analysis)
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# OS / editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Golden-run outputs (the golden set is private, as in the teacher repo)
+scripts/golden-results/

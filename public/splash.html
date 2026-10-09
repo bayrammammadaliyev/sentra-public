@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SENTRA — Essenizi yazın. Səhvinizi görün. Yenidən yazın.</title>
+<meta name="description" content="SENTRA essenizi rəsmi DİM meyarları (A, B, C, D) üzrə qiymətləndirir, hər itirilmiş balın səbəbini izah edir və səhvlərinizdən məşq hazırlayır.">
+<script>try{if(localStorage.getItem('emeyar_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="/lib/net.js"></script>
+<script src="/lib/auth.js"></script>
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/public.css">
+<style>
+  /* Landing page. Built from public.css (the teacher landing styles: hero,
+     how, steps, dark footer); only the pieces below are page-specific. */
+  .link-wrap { max-width: 1400px; margin: 0 auto; padding: 24px var(--gutter) 0; }
+  .link-wrap:empty { display: none; }
+  .hero h1 .l { display: block; }
+  .hero h1 .l2 { color: var(--accent); font-style: italic; }
+
+  /* Static illustration of the before/after card (same look as the real
+     card in home.html; numbers are a fixed example). */
+  .ba-demo { max-width: 560px; justify-self: end; width: 100%; }
+  .ba-card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 22px 24px; box-shadow: var(--shadow); }
+  .ba-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .ba-head small { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--faint); }
+  .ba-total { font-family: var(--serif); font-size: 44px; line-height: 1.1; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .ba-total .up { color: var(--accent); }
+  .ba-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; margin-top: 16px; }
+  .ba-cell { border-radius: 6px; padding: 10px 12px; background: var(--accent-soft); }
+  .ba-cell .k { display: block; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--faint); }
+  .ba-cell .v { display: block; margin-top: 4px; font-size: 15px; font-weight: 700; color: var(--ink); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .ba-cell .arr { color: var(--accent); }
+  .ba-note { margin: 10px 0 0; text-align: right; font-size: 13px; color: var(--faint); }
+
+  .steps.four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .step h3 { font-size: 26px; }
+
+  .why { padding: 104px var(--gutter); max-width: 1400px; margin: 0 auto; }
+  .why .h2-lg { margin-bottom: 48px; }
+  .why-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+  .why-card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 28px; }
+  .why-card .diamond { width: 9px; height: 9px; margin-bottom: 18px; }
+  .why-card h3 { font-family: var(--serif); font-weight: 500; font-size: 28px; line-height: 1.15; margin: 0 0 12px; color: var(--ink); }
+  .why-card p { margin: 0; font-size: 16px; line-height: 1.6; color: var(--muted); }
+
+  /* İmkanlar and Üstünlüklərimiz: 6 cards, 3 / 2 / 1 per row */
+  .grid6 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+  .why-card .ic { width: 44px; height: 44px; border-radius: 10px; background: var(--accent-soft); color: var(--accent); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+  .why-card .ic svg { width: 22px; height: 22px; }
+  #imkanlar { padding-bottom: 88px; }
+  .adv { background: var(--deep); color: var(--deep-ink); padding: 104px var(--gutter); }
+  .adv-inner { max-width: 1400px; margin: 0 auto; }
+  .adv .h2-lg { margin-bottom: 48px; color: var(--deep-ink); }
+  .adv-card { background: var(--deep-2); border: 1px solid var(--deep-line); border-radius: 12px; padding: 28px; }
+  .adv-card .n { display: block; font-family: var(--serif); font-size: 44px; line-height: 1; color: var(--gold); margin-bottom: 14px; }
+  .adv-card h3 { font-family: var(--serif); font-weight: 500; font-size: 26px; line-height: 1.15; margin: 0 0 12px; color: var(--deep-ink); }
+  .adv-card p { margin: 0; font-size: 16px; line-height: 1.6; color: var(--deep-muted); }
+
+  .site-foot { background: var(--deep); color: var(--deep-ink); padding: 36px var(--gutter); }
+  .site-foot .foot-bottom { border-top: 0; padding-top: 0; align-items: center; flex-wrap: wrap; }
+  .site-foot .wordmark { font-family: var(--serif); font-weight: 600; letter-spacing: .14em; color: var(--deep-ink); }
+
+  @media (max-width: 1100px) {
+    .ba-demo { justify-self: start; }
+    .steps.four { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .why-grid { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (max-width: 1100px) {
+    .grid6 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 900px) {
+    .steps.four { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (max-width: 600px) {
+    .ba-card { padding: 18px; }
+    .ba-total { font-size: 36px; }
+    .ba-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .why { padding-top: 64px; padding-bottom: 64px; }
+    .why .h2-lg { margin-bottom: 32px; }
+    .why-card { padding: 22px; }
+    .why-card h3 { font-size: 24px; }
+    .grid6 { grid-template-columns: minmax(0, 1fr); }
+    .adv { padding-top: 64px; padding-bottom: 64px; }
+    .adv .h2-lg { margin-bottom: 32px; }
+    .adv-card { padding: 22px; }
+    .adv-card h3 { font-size: 24px; }
+  }
+</style>
+</head>
+<body id="top">
+
+<header class="topbar">
+  <a class="logo" href="/" aria-label="SENTRA — ana səhifə">
+    <span class="wordmark">SENTRA</span>
+  </a>
+  <nav aria-label="Bölmələr">
+    <a href="#imkanlar">İmkanlar</a>
+    <a href="#nece-isleyir">Necə işləyir</a>
+    <a href="#ustunluklerimiz">Üstünlüklərimiz</a>
+    <a href="#niye-sentra">Niyə SENTRA</a>
+  </nav>
+  <div class="actions">
+    <button type="button" class="theme-toggle" data-theme-toggle title="Gecə rejimi" aria-label="Gecə rejimi">
+      <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+    <a class="btn btn-text" id="headerLogin" href="login.html">Daxil olun</a>
+  </div>
+</header>
+
+<div class="link-wrap" id="linkBox"></div>
+
+<main>
+  <!-- HERO -->
+  <section class="hero">
+    <div>
+      <div class="hero-chip"><span class="diamond"></span>DİM 2027 · İngilis dili · Tapşırıq 26</div>
+      <h1><span class="l">Essenizi yazın.</span> <span class="l l2">Səhvinizi görün.</span> <span class="l">Yenidən yazın.</span></h1>
+      <p class="lede">SENTRA essenizi rəsmi DİM meyarları (A, B, C, D) üzrə qiymətləndirir, hər itirilmiş balın səbəbini izah edir və səhvlərinizdən məşq hazırlayır.</p>
+      <div class="ctas">
+        <a class="btn btn-primary btn-lg" href="signup.html">Qeydiyyatdan keçin<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg></a>
+        <a class="btn btn-ghost btn-lg" href="login.html">Daxil olun</a>
+      </div>
+    </div>
+
+    <figure class="ba-demo" aria-label="Nümunə nəticə: 8.3-dən 16.7-yə">
+      <div class="ba-card" aria-hidden="true">
+        <div class="ba-head"><small>Əvvəl → İndi</small><div class="ba-total">8.3 → 16.7 <span class="up">↑</span></div></div>
+        <div class="ba-grid">
+          <div class="ba-cell"><span class="k">A</span><span class="v">0.5 → 1 <span class="arr">↑</span></span></div>
+          <div class="ba-cell"><span class="k">B</span><span class="v">1 → 2 <span class="arr">↑</span></span></div>
+          <div class="ba-cell"><span class="k">C</span><span class="v">0.5 → 1 <span class="arr">↑</span></span></div>
+          <div class="ba-cell"><span class="k">D</span><span class="v">0.5 → 1 <span class="arr">↑</span></span></div>
+          <div class="ba-cell"><span class="k">Səhvlər</span><span class="v">6 → 0 <span class="arr">↓</span></span></div>
+        </div>
+      </div>
+      <figcaption class="ba-note">Nümunə nəticə</figcaption>
+    </figure>
+  </section>
+
+  <!-- İMKANLAR -->
+  <section class="why" id="imkanlar">
+    <h2 class="h2-lg">İmkanlar</h2>
+    <div class="grid6">
+      <div class="why-card"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></span><h3>Esse yoxlama</h3><p>Essenizi yazın və ya kağızdakı essenin şəklini yükləyin.</p></div>
+      <div class="why-card"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span><h3>Rəsmi meyarlarla qiymət</h3><p>A, B, C, D üzrə ballar və 16.7 ballıq şkala ilə nəticə.</p></div>
+      <div class="why-card"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span><h3>Fərdi tövsiyələr</h3><p>Hər itirilmiş balın səbəbi və öz cümlənizdən düzəliş nümunəsi.</p></div>
+      <div class="why-card"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span><h3>Səhvlərdən məşq</h3><p>Ən çox etdiyiniz səhv növü üzrə qısa tapşırıqlar.</p></div>
+      <div class="why-card"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg></span><h3>Yenidən yazma</h3><p>Essenizi yenidən yazın, əvvəl və sonra nəticəni müqayisə edin.</p></div>
+      <div class="why-card"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span><h3>Nəticələrim</h3><p>Bal trendi, meyarlar üzrə ortalama və ən çox təkrarlanan səhvlər.</p></div>
+    </div>
+  </section>
+
+  <!-- NECƏ İŞLƏYİR -->
+  <section class="how" id="nece-isleyir">
+    <div class="how-inner">
+      <div class="how-head">
+        <h2 class="h2-lg">Necə işləyir</h2>
+      </div>
+      <div class="steps four">
+        <div class="step">
+          <div class="step-top"><span class="num">1</span><span class="rule"></span></div>
+          <h3>Yazın və ya şəklini çəkin</h3>
+          <p>Essenizi yazın və ya kağızdakı essenin şəklini yükləyin, real imtahan kimi.</p>
+        </div>
+        <div class="step">
+          <div class="step-top"><span class="num">2</span><span class="rule"></span></div>
+          <h3>Rəsmi meyarlarla qiymət</h3>
+          <p>A, B, C, D üzrə ballar və 16.7 ballıq şkala ilə nəticə.</p>
+        </div>
+        <div class="step">
+          <div class="step-top"><span class="num">3</span><span class="rule"></span></div>
+          <h3>Səhvlərinizdən məşq</h3>
+          <p>Ən çox etdiyiniz səhv növü üzrə qısa tapşırıqlar.</p>
+        </div>
+        <div class="step">
+          <div class="step-top"><span class="num">4</span><span class="rule"></span></div>
+          <h3>Yenidən yazın</h3>
+          <p>Əvvəl və sonra: hansı meyarda nə qədər irəlilədiyinizi görün.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ÜSTÜNLÜKLƏRİMİZ -->
+  <section class="adv" id="ustunluklerimiz">
+    <div class="adv-inner">
+      <h2 class="h2-lg">Üstünlüklərimiz</h2>
+      <div class="grid6">
+        <div class="adv-card"><span class="n">1</span><h3>Zamana qənaət</h3><p>Nəticə və tövsiyələr bir dəqiqədən az müddətdə hazır olur, müəllimin yoxlamasını gözləməyə ehtiyac yoxdur.</p></div>
+        <div class="adv-card"><span class="n">2</span><h3>Sərbəst və rahat işləmək</h3><p>İstədiyiniz vaxt, istədiyiniz yerdən, öz tempinizlə məşq edin.</p></div>
+        <div class="adv-card"><span class="n">3</span><h3>DİM meyarlarına əsasən dəqiq qiymətləndirmə</h3><p>Qiymətləndirmə rəsmi A, B, C, D meyarlarına əsaslanır və əl ilə qiymətləndirilmiş nümunə esselərlə yoxlanılıb.</p></div>
+        <div class="adv-card"><span class="n">4</span><h3>Səhvlərin ətraflı izahı</h3><p>Hər səhvin düzgün variantı və səbəbi Azərbaycan dilində izah olunur.</p></div>
+        <div class="adv-card"><span class="n">5</span><h3>Hazır esse mövzuları</h3><p>İmtahan formatına uyğun 12 mövzu ilə bacarıqlarınızı yoxlayın və ya öz mövzunuzu yazın.</p></div>
+        <div class="adv-card"><span class="n">6</span><h3>İnkişafın izlənilməsi</h3><p>Statistika hansı meyarda irəlilədiyinizi və nəyə diqqət etməli olduğunuzu göstərir.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NİYƏ SENTRA -->
+  <section class="why" id="niye-sentra">
+    <h2 class="h2-lg">Niyə SENTRA</h2>
+    <div class="why-grid">
+      <div class="why-card">
+        <span class="diamond"></span>
+        <h3>Gizli ballar</h3>
+        <p>C və D meyarları yalnız səhvsizliyi yox, cümlə və söz müxtəlifliyini qiymətləndirir. SENTRA bunu sizə açıq göstərir.</p>
+      </div>
+      <div class="why-card">
+        <span class="diamond"></span>
+        <h3>Hazır esse vermir</h3>
+        <p>Əzbərlənmiş şablon cümlələr imtahanda 0 bal gətirir. Ona görə SENTRA sizin öz cümlələrinizi gücləndirir.</p>
+      </div>
+      <div class="why-card">
+        <span class="diamond"></span>
+        <h3>Yoxlanılmış mühərrik</h3>
+        <p>Müəllimlər üçün hazırlanan e-meyar sisteminin qiymətləndirmə mühərriki, əl ilə qiymətləndirilmiş nümunə esselərlə yoxlanılıb.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="foot-bottom">
+    <span>Qiymətləndirməni süni intellekt aparır; real imtahanda nəticə fərqli ola bilər.</span>
+    <span>© <span class="wordmark">SENTRA</span></span>
+  </div>
+</footer>
+
+<script>
+  /* Email links that land here. Supabase sends a confirmation or recovery link
+     to the Site URL (this page) instead of login.html / reset-password.html
+     when the link fails, and on some flows even when it works. Send working
+     links on to the right page; explain failed ones instead of ignoring them.
+     (Unchanged from 7482b8d.) */
+  (function () {
+    if (!window.location.hash) return;
+    var h = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+    var type = h.get('type');
+    if (h.get('access_token') && type === 'recovery') {
+      window.location.replace('/reset-password.html' + window.location.hash);
+      return;
+    }
+    if (h.get('access_token')) {
+      window.location.replace('/login.html' + window.location.hash);
+      return;
+    }
+    if (!h.get('error') && !h.get('error_code')) return;
+    try { history.replaceState(null, '', window.location.pathname + window.location.search); } catch (_) {}
+    document.getElementById('linkBox').innerHTML =
+      '<div class="alert alert-error" style="margin-bottom:0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>' +
+      '<span>E-poçtdakı keçid etibarsızdır və ya vaxtı keçib (hər keçid bir dəfə işləyir; yeni keçid istəsəniz, köhnəsi işləmir). ' +
+      'Şifrə bərpası üçün <a href="forgot-password.html" style="color:inherit;font-weight:700;text-decoration:underline;">yeni keçid istəyin</a>; ' +
+      'qeydiyyatı təsdiqləmək üçün <a href="login.html" style="color:inherit;font-weight:700;text-decoration:underline;">daxil olmağa cəhd edin</a>.</span></div>';
+  })();
+
+  /* Logged in already: the top-bar link goes to the app. Only a hint from
+     this browser's storage; home.html checks the login for real. */
+  if (window.EmeyarAuth && EmeyarAuth.hasSession()) {
+    var l = document.getElementById('headerLogin');
+    l.textContent = 'Panelə keç';
+    l.href = 'home.html';
+  }
+</script>
+<script src="/lib/public-theme.js"></script>
+
+</body>
+</html>
