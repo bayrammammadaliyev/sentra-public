@@ -536,3 +536,7 @@ section[id] { scroll-margin-top: 84px; }
 /* SENTRA wordmark (text-only logo; the old lockup images said "e-meyar"). */
 .logo .wordmark { display: block; font-family: var(--serif); font-weight: 600; font-size: 26px; line-height: 1; letter-spacing: .14em; color: var(--ink); }
 .auth-side .logo .wordmark { color: var(--deep-ink); }
+
+/* SENTRA logo mark next to the wordmark. */
+.logo { gap: 10px; }
+.logo .logo-mark { display: block; width: 32px; height: 32px; border-radius: 8px; }

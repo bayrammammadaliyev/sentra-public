@@ -1,6 +1,6 @@
 # Sprint 3 summary: the learning loop, photo upload, landing page
 
-*Finished 9 Oct 2026. Live at https://aihackton-production.up.railway.app.
+*Finished 9 Oct 2026. Live at https://sentra.up.railway.app.
 Known-good tags: `demo-safe-1` (`db0eb1d`), `demo-safe-2` (`55483d5`).*
 
 ## Demo flow (works end to end, tested live)

@@ -1,6 +1,8 @@
+<img src="public/assets/logo-mark.png" alt="SENTRA logo" width="72" height="72">
+
 # SENTRA
 
-**Live demo:** https://aihackton-production.up.railway.app
+**Live demo:** https://sentra.up.railway.app
 
 SENTRA is a practice app for Azerbaijani 11th-grade students preparing for
 Task 26 of the DİM 2027 English exam: an opinion paragraph of at least 100

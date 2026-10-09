@@ -1,6 +1,6 @@
 # Sprint 2 summary: write page, grading, coaching, saving, daily limit
 
-*Finished 9 Oct 2026. Live at https://aihackton-production.up.railway.app (commit `ace4812`).*
+*Finished 9 Oct 2026. Live at https://sentra.up.railway.app (commit `ace4812`).*
 
 ## Goal
 A student picks a topic, writes an essay, gets it graded with the teacher

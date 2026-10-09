@@ -1,6 +1,6 @@
 # Sprint 4 summary: three sections + landing additions
 
-*Finished 9 Oct 2026. Live at https://aihackton-production.up.railway.app.
+*Finished 9 Oct 2026. Live at https://sentra.up.railway.app.
 Known-good tags: `demo-safe-3` (`ec2be63`, Sprint 4), `demo-safe-4`
 (`cdaf4c1`, landing additions).*
 

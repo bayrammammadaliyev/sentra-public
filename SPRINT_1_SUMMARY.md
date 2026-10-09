@@ -1,6 +1,6 @@
 # Sprint 1 summary: e-meyar student version, foundation
 
-*Finished 9 Oct 2026. Live at https://aihackton-production.up.railway.app*
+*Finished 9 Oct 2026. Live at https://sentra.up.railway.app*
 
 ## Goal
 A deployed skeleton where a student can sign up and log in, with the grading
